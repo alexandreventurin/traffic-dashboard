@@ -22,6 +22,7 @@ export interface AccountOverview {
   accountId: string
   accountName: string
   platform: Platform
+  currency: string
   spend: number
   revenue: number
   roas: number
