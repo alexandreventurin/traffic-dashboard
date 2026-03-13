@@ -15,6 +15,7 @@ export interface ConfigContextType {
   setGoogleToken: (token: string) => void
   setMetaAccounts: (accounts: MetaAccount[]) => void
   isConfigured: boolean
+  isHydrated: boolean
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined)
@@ -67,6 +68,7 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
         setGoogleToken,
         setMetaAccounts,
         isConfigured,
+        isHydrated,
       }}
     >
       {children}

@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useConfig } from "@/lib/context/ConfigContext"
 import { useAccountInsights } from "@/lib/hooks/useAccountInsights"
@@ -30,14 +29,10 @@ function formatBRLFull(v: number) {
 
 export function DashboardClient() {
   const router = useRouter()
-  const { isConfigured, metaAccounts } = useConfig()
-  const [isHydrated, setIsHydrated] = useState(false)
+  const { isConfigured, metaAccounts, isHydrated } = useConfig()
 
-  useEffect(() => {
-    setIsHydrated(true)
-  }, [])
-
-  // Não renderiza nada até estar hidratado
+  // Aguarda o ConfigContext terminar de ler o localStorage antes de renderizar
+  // (evita flash de "Configuração Necessária" enquanto o localStorage ainda está carregando)
   if (!isHydrated) {
     return <div className="h-screen bg-background" />
   }
