@@ -14,7 +14,7 @@ import {
   LayoutGrid,
   ArrowDownUp,
 } from "lucide-react"
-import type { CreativeData } from "@/app/api/meta/creatives/route"
+import type { CreativeData } from "@/lib/types"
 
 type SortKey = "spend" | "roas" | "ctr" | "conversions" | "cpa"
 type TypeFilter = "all" | "video" | "image" | "carousel"

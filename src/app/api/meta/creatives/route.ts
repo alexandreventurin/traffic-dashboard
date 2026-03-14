@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getActionValue, parseROAS, normalizeAccountId } from "@/lib/meta/parse"
+import type { CreativeData } from "@/lib/types"
 
 // Extrai valor de action de vídeo (retorna número ou 0)
 function getVideoAction(
@@ -9,39 +10,6 @@ function getVideoAction(
   if (!actions) return 0
   const found = actions.find((a) => a.action_type === type)
   return found ? parseInt(found.value) || 0 : 0
-}
-
-export interface CreativeData {
-  id: string
-  name: string
-  type: "image" | "video" | "carousel" | "unknown"
-  thumbnailUrl: string
-  title?: string
-  body?: string
-  // KPIs
-  spend: number
-  impressions: number
-  reach: number
-  clicks: number
-  ctr: number
-  cpc: number
-  conversions: number
-  revenue: number
-  roas: number
-  cpa: number
-  // Vídeo
-  isVideo: boolean
-  video3SecViews: number
-  videoThruplay: number
-  videoP25: number
-  videoP50: number
-  videoP75: number
-  videoP100: number
-  // Retenção relativa (% que assistiu cada ponto vs total que iniciou)
-  retentionP25: number
-  retentionP50: number
-  retentionP75: number
-  retentionP100: number
 }
 
 export async function GET(request: NextRequest) {

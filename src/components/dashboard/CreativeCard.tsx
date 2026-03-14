@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ImageIcon, Video, LayoutGrid, TrendingUp } from "lucide-react"
-import type { CreativeData } from "@/app/api/meta/creatives/route"
+import type { CreativeData } from "@/lib/types"
 
 function formatBRL(v: number) {
   if (v >= 1000) return `R$ ${(v / 1000).toFixed(1)}k`

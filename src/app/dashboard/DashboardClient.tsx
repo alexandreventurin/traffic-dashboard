@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useConfig } from "@/lib/context/ConfigContext"
 import { useMetaDashboard } from "@/lib/hooks/useMetaDashboard"
@@ -7,6 +8,7 @@ import { Header } from "@/components/layout/Header"
 import { MetricCard } from "@/components/dashboard/MetricCard"
 import { AlertsPanel } from "@/components/dashboard/AlertsPanel"
 import { CampaignTable } from "@/components/dashboard/CampaignTable"
+import { DiagnoseModal } from "@/components/dashboard/DiagnoseModal"
 import { SpendRevenueChart } from "@/components/charts/SpendRevenueChart"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -116,6 +118,7 @@ export function DashboardClient() {
   const { isConfigured, metaAccounts, isHydrated } = useConfig()
   const { accounts, campaigns, dailyMetrics, isLoading, error, refetch } =
     useMetaDashboard()
+  const [diagnoseCampaign, setDiagnoseCampaign] = useState<Campaign | null>(null)
 
   // Aguarda ConfigContext terminar de ler o localStorage
   if (!isHydrated) {
@@ -531,13 +534,13 @@ export function DashboardClient() {
                 </TabsList>
 
                 <TabsContent value="all">
-                  <CampaignTable campaigns={campaigns} platform="all" />
+                  <CampaignTable campaigns={campaigns} platform="all" onDiagnose={setDiagnoseCampaign} />
                 </TabsContent>
                 <TabsContent value="meta">
-                  <CampaignTable campaigns={campaigns} platform="meta" />
+                  <CampaignTable campaigns={campaigns} platform="meta" onDiagnose={setDiagnoseCampaign} />
                 </TabsContent>
                 <TabsContent value="google">
-                  <CampaignTable campaigns={campaigns} platform="google" />
+                  <CampaignTable campaigns={campaigns} platform="google" onDiagnose={setDiagnoseCampaign} />
                 </TabsContent>
               </Tabs>
             </div>
@@ -569,6 +572,20 @@ export function DashboardClient() {
           )}
         </aside>
       </div>
+
+      {/* Modal de diagnóstico IA */}
+      {diagnoseCampaign && (
+        <DiagnoseModal
+          campaign={diagnoseCampaign}
+          accountContext={{
+            avgROAS: overallROAS,
+            avgCPA: overallCPA,
+            totalSpend: totalSpend,
+          }}
+          open={!!diagnoseCampaign}
+          onClose={() => setDiagnoseCampaign(null)}
+        />
+      )}
     </div>
   )
 }

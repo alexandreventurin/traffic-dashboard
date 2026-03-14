@@ -147,3 +147,34 @@ export interface DailyMetric {
   impressions: number
   clicks: number
 }
+
+// ------ CRIATIVO ------
+export interface CreativeData {
+  id: string
+  name: string
+  type: "image" | "video" | "carousel" | "unknown"
+  thumbnailUrl: string
+  title?: string
+  body?: string
+  spend: number
+  impressions: number
+  reach: number
+  clicks: number
+  ctr: number
+  cpc: number
+  conversions: number
+  revenue: number
+  roas: number
+  cpa: number
+  isVideo: boolean
+  video3SecViews: number
+  videoThruplay: number
+  videoP25: number
+  videoP50: number
+  videoP75: number
+  videoP100: number
+  retentionP25: number
+  retentionP50: number
+  retentionP75: number
+  retentionP100: number
+}

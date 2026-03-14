@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp, TrendingDown, Minus, AlertTriangle } from "lucide-react"
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, Zap } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import type { Campaign } from "@/lib/types"
@@ -116,9 +116,10 @@ function formatBRL(v: number) {
 interface CampaignTableProps {
   campaigns: Campaign[]
   platform?: "meta" | "google" | "all"
+  onDiagnose?: (campaign: Campaign) => void
 }
 
-export function CampaignTable({ campaigns, platform = "all" }: CampaignTableProps) {
+export function CampaignTable({ campaigns, platform = "all", onDiagnose }: CampaignTableProps) {
   const filtered =
     platform === "all" ? campaigns : campaigns.filter((c) => c.platform === platform)
 
@@ -138,9 +139,10 @@ export function CampaignTable({ campaigns, platform = "all" }: CampaignTableProp
               "Conv.",
               platform === "meta" ? "Freq." : "IS Budget",
               platform === "meta" ? "Trend" : "IS Rank",
-            ].map((col) => (
+              "", // coluna do botão IA
+            ].map((col, i) => (
               <th
-                key={col}
+                key={i}
                 className="pb-2 pr-4 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground first:pl-1"
               >
                 {col}
@@ -230,6 +232,20 @@ export function CampaignTable({ campaigns, platform = "all" }: CampaignTableProp
                   </div>
                 ) : (
                   <IS lost={c.impressionShareLostRank} type="rank" />
+                )}
+              </td>
+
+              {/* Botão diagnóstico IA */}
+              <td className="py-3">
+                {onDiagnose && (
+                  <button
+                    onClick={() => onDiagnose(c)}
+                    title="Diagnosticar com IA"
+                    className="flex items-center gap-1 rounded-md border border-primary/20 bg-primary/5 px-2 py-1 text-[10px] font-medium text-primary opacity-0 transition-all hover:bg-primary/10 group-hover:opacity-100"
+                  >
+                    <Zap className="h-3 w-3" />
+                    IA
+                  </button>
                 )}
               </td>
             </tr>
