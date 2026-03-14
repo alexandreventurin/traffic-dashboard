@@ -36,7 +36,6 @@ const navItems = [
     label: "Criativos",
     href: "/dashboard/criativos",
     icon: Palette,
-    comingSoon: true,
   },
   {
     label: "Análise IA",
